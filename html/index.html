@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="../font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/openseadragon.js"></script>
+  
+   
+</head>
+<body>
+<div id="canvas">
+<div id="myInstance">
+    <div id="toolbar">
+  <i class="fa fa-3x fa-arrow-circle-left" aria-hidden="true" id="prev"></i>
+       <i class="fa fa-3x fa-arrow-circle-right" aria-hidden="true" id="next"></i>
+ 
+
+    </div>
+</div>
+</div>
+    
+
+<script type="text/javascript">
+    
+   
+    var viewer = OpenSeadragon({
+        id: 'myInstance',
+        iOSDevice: true,
+        defaultZoomLevel: 0,
+        minZoomLevel: 1,
+        defaultZoomLevel: 1,
+        sequenceMode: true,
+        visibilityRatio: 1,
+        toolbar: 'toolbar',
+        previousButton: 'prev',
+        nextButton: 'next',
+        showNavigationControl: false,
+        tileSources: [
+            {
+                type: 'image',
+                url: '../images/album_1.jpg'
+            },
+            {
+                type: 'image',
+                url: '../images/album_2.jpg'
+            },
+            {
+                type: 'image',
+                url: '../images/album_3.jpg'
+            }]
+    });
+  
+    
+        
+</script>
+</body>
+</html>
