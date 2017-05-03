@@ -1,204 +1,197 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <link rel="stylesheet" href="../includes/font-awesome-4.7.0/css/font-awesome.min.css">
-     <link rel="stylesheet" href="../includes/css/style.css">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <link rel="stylesheet" href="../includes/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../includes/css/style.css">
 
-    <script src="../includes/js/openseadragon.js"></script>
-     <script src="../includes/js/jquery-1.11.3.min.js"></script>
+        <script src="../includes/js/openseadragon.js"></script>
+        <script src="../includes/js/jquery-1.11.3.min.js"></script>
 
-   
-</head>
-<body>
-<div id="canvas">
-<div id="myInstance">
-    <div id="toolbar">
-  <i class="fa fa-3x fa-arrow-circle-left" aria-hidden="true" id="prev"></i>
-       <i class="fa fa-3x fa-arrow-circle-right" aria-hidden="true" id="next"></i>
- 
 
-    </div>
-</div>
-</div>
-    
+    </head>
+    <body>
+        <div id="canvas">
+            <div id="myInstance">
+                <div id="toolbar">
+                    <i class="fa fa-3x fa-arrow-circle-left" aria-hidden="true" id="prev"></i>
+                    <i class="fa fa-3x fa-arrow-circle-right" aria-hidden="true" id="next"></i>
 
-<script type="text/javascript">
-    
-    $( document ).ready(function() {
-        
-        var tileSources = [
-            {
-                type: 'image',
-                url: 'images/album_0592_8_001.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_002.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_003.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_004.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_005.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_006.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_007.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_008.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_009.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_010.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_011.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_012.jpg'
-            },
-         {
-                type: 'image',
-                url: 'images/album_0592_8_013.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_014.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_015.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_016.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_017.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_018.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_019.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_020.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_021.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_022.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_023.jpg'
-            },
-            {
-                type: 'image',
-                url: 'images/album_0592_8_024.jpg'
-            }];
-        
-      
-   var viewer = OpenSeadragon({
-        id: 'myInstance',
-        iOSDevice: true,
-        defaultZoomLevel: 0.8,
-        minZoomLevel: 0.8,
-        sequenceMode: true,
-        immediateRender: true,
-        iOSDevice : true,
-        visibilityRatio: 1,
-        toolbar: 'toolbar',
-        previousButton: 'prev',
-        nextButton: 'next',
-        showNavigationControl: false,
-        tileSources: tileSources
-    });
-            
-    var previousPos;
-    
-    //detect id it is a swippe left or right by comparing the first and last touch position.
-    var swip = function(event){
-       if (Math.abs(event.position.x - previousPos.x) > 200 && Math.abs(event.position.y - previousPos.y) < 300){
-         if (event.position.x < previousPos.x  && viewer.currentPage() < tileSources.length){
-                //  $(".openseadragon-canvas").css({ opacity: 0 });
-                viewer.goToPage(viewer.currentPage() + 1);
-            }else if (event.position.x > previousPos.x  && viewer.currentPage() > 0){
-               // $(".openseadragon-canvas").css({ opacity: 0 });
-                 viewer.goToPage(viewer.currentPage() - 1);
-            }
-        }
-    }
-    
-    //On zoom level = 1 it is a swippe, otherwise a pan inside the image
-    var panOrChangePage = function(event){
-        
-          viewer.removeHandler('canvas-drag-end', swip);
-          if (event.zoom > 1.1){
-             viewer.panHorizontal = true;
-             viewer.panVertical = true;
-             viewer.removeHandler('canvas-drag-end', swip);
-          }else{
-             viewer.panHorizontal = false;
-             viewer.panVertical = false;
-             viewer.addHandler('canvas-drag-end', swip);
-          }
-    };
-    
-    //Add the zoomHandler to detect if the user wants to pan or swippe
-    var zoomHandler = function(event){
-        viewer.addHandler('zoom', panOrChangePage);
-    }; 
-   
-    //Get the first touch position to detect if it is a swipe left or right
-    viewer.addHandler('canvas-enter', function(event){
-       previousPos = event.position;
-    
-    });
-      
-    //Reinialize handler on page changes
-    viewer.addHandler('page', function(event){
-        // $(".openseadragon-canvas").animate({opacity: '1'},"fast");
-        viewer.removeHandler('zoom', panOrChangePage);
-        viewer.removeHandler('canvas-drag-end', swip);
-        zoomHandler();
-    });
-    
-    zoomHandler();
-        
- 
 
-        
- });
-        
-</script>
-</body>
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                var tileSources = [
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_001.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_002.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_003.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_004.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_005.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_006.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_007.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_008.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_009.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_010.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_011.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_012.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_013.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_014.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_015.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_016.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_017.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_018.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_019.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_020.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_021.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_022.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_023.jpg'
+                    },
+                    {
+                        type: 'image',
+                        url: 'images/album_0592_8_024.jpg'
+                    }];
+
+
+                var viewer = OpenSeadragon({
+                    id: 'myInstance',
+                    iOSDevice: true,
+                    defaultZoomLevel: 0.8,
+                    minZoomLevel: 0.8,
+                    sequenceMode: true,
+                    immediateRender: true,
+                    iOSDevice: true,
+                    visibilityRatio: 1,
+                    toolbar: 'toolbar',
+                    previousButton: 'prev',
+                    nextButton: 'next',
+                    showNavigationControl: false,
+                    tileSources: tileSources
+                });
+
+                var previousPos;
+
+                //detect if it is a swipe left or right (and not up or down) by comparing the first and last touch position.
+                var swip = function (event) {
+                    if (Math.abs(event.position.x - previousPos.x) > 200 && Math.abs(event.position.y - previousPos.y) < 300) {
+                        if (event.position.x < previousPos.x && viewer.currentPage() < tileSources.length) {
+                            viewer.goToPage(viewer.currentPage() + 1);
+                        } else if (event.position.x > previousPos.x && viewer.currentPage() > 0) {
+                            viewer.goToPage(viewer.currentPage() - 1);
+                        }
+                    }
+                }
+
+                //On zoom level = 1 it is a swipe, otherwise a pan inside the image
+                var panOrChangePage = function (event) {
+
+                    viewer.removeHandler('canvas-drag-end', swip);
+                    if (event.zoom > 1.1) {
+                        viewer.panHorizontal = true;
+                        viewer.panVertical = true;
+                        viewer.removeHandler('canvas-drag-end', swip);
+                    } else {
+                        viewer.panHorizontal = false;
+                        viewer.panVertical = false;
+                        viewer.addHandler('canvas-drag-end', swip);
+                    }
+                };
+
+                //Add the zoomHandler to detect if the user wants to pan or swipe
+                var zoomHandler = function (event) {
+                    viewer.addHandler('zoom', panOrChangePage);
+                };
+
+                //Get the first touch position to detect if it is a swipe left or right (function swip)
+                viewer.addHandler('canvas-enter', function (event) {
+                    previousPos = event.position;
+
+                });
+
+                //Reinialize handler on page changes
+                viewer.addHandler('page', function (event) {
+                    viewer.removeHandler('zoom', panOrChangePage);
+                    viewer.removeHandler('canvas-drag-end', swip);
+                    zoomHandler();
+                });
+
+                zoomHandler();
+            });
+
+        </script>
+    </body>
 </html>
